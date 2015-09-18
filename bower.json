@@ -1,0 +1,20 @@
+{
+  "name": "MyHomeController",
+  "version": "1.0.0",
+  "authors": [
+    "khan0405 <khan4257@gmail.com>"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests",
+    "public/vendors"
+  ],
+  "dependencies": {
+    "components-font-awesome": "~4.4.0",
+    "Materialize": "materialize#~0.97.0"
+  }
+}

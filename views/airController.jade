@@ -1,0 +1,28 @@
+//Created by KHAN on 2015-09-04.
+extends layout
+block headScripts
+    script(src='/javascripts/airController.js')
+
+block content
+    div.container
+        div.wrapper.table
+            div.row
+                div.col
+                    a#btnPower.waves-effect.waves-light.btn-large.red
+                        i.fa.fa-power-off
+            div.row
+                div.col.s12
+                    a#temperature.dropdown-button.waves-effect.waves-light.btn-large.fillWidth(href='#',data-beloworigin='true',data-activates='temperatureItems')
+                    ul#temperatureItems.dropdown-content
+                        -for(var i = 18; i < 31; i++)
+                            li: a.temperature-item(data='#{i}') #{i}℃
+            div.row
+                div.col.s6
+                    a#btnSelectWorkMode.waves-effect.waves-light.btn-large.fillWidth 운전선택
+                div.col.s6
+                    a#btnToggleWindDirection.waves-effect.waves-light.btn-large.fillWidth 풍향설정
+            div.row
+                div.col.s6
+                    a#btnSelectWindPower.waves-effect.waves-light.btn-large.fillWidth 풍량선택
+                div.col.s6
+                    a#btnPowerOffSchedule.waves-effect.waves-light.btn-large.fillWidth 꺼짐예약
