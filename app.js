@@ -19,7 +19,8 @@ require('./models/dataInitializer');
 
 var routes = require('./routes/index');
 var users = require('./routes/users');
-var test = require('./routes/test');
+var airController = require('./routes/airController');
+//var test = require('./routes/test');
 
 var app = express();
 
@@ -37,11 +38,11 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', routes);
 app.use('/users', users);
-app.use('/test', test);
-//app.use('/airController', airController);
-app.get('/airController/', function(req, res, next) {
-  res.render('airController', {title: 'AirController'});
-});
+//app.use('/test', test);
+app.use('/airController', airController);
+//app.get('/airController/', function(req, res, next) {
+//  res.render('airController', {title: 'AirController'});
+//});
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   var err = new Error('Not Found');

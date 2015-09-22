@@ -20,9 +20,6 @@ var keyMap = {
     high: 'HIGH_'
 };
 
-/* GET home page. */
-var defaultSuccessResult = {code:200, message:'success'};
-
 router.get('/currStatus', function(req, res, next) {
     RemoteAirController.findOne({}, function(err, ac) {
         if (handleError(err)) {

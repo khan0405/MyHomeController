@@ -38,7 +38,7 @@
 
         var _AirController = this;
 
-        $.get('/test/currStatus', function (result) {
+        $.get('/airController/status', function (result) {
             console.log(result);
             if (result.currTemperature < 18 || result.currTemperature > 30) {
                 currTemperature = 18;
@@ -63,7 +63,7 @@
                 mode = 1;
             }
             selectMode = mode;
-            remoteCmd(keyMap.selectMode + mode, callback, fail, done);
+            remoteCmd(keyMap.selectMode + mode, {selectMode: mode}, callback, fail, done);
         };
 
         this.setPowerOffSchedule = function (mode, callback, fail, done) {
@@ -74,7 +74,7 @@
             if (mode === 0) {
                 mode = 'OFF';
             }
-            remoteCmd(keyMap.powerOffSchedule + mode, callback, fail, done);
+            remoteCmd(keyMap.powerOffSchedule + mode, {powerOffScheduleMode: mode}, callback, fail, done);
         };
 
         this.powerOnOff = function () {
@@ -85,9 +85,13 @@
             else {
                 cmd = keyMap.powerOn + currTemperature;
             }
+
             cmd = encodeURIComponent(cmd);
-            $.post('/test/cmd/' + cmd, function (result) {
-                console.log(result);
+            remoteCmd(cmd, {isPowerOn: !isPowerOn}, function(result) {
+                if (result) {
+                    isPowerOn = result.isPowerOn;
+                    // 파워온된 모습 보여줘야함;
+                }
             });
         };
 
@@ -112,16 +116,17 @@
 
             var cmd = encodeURIComponent((isPowerHigh ? keyMap.high : keyMap.low) + temperature);
 
-            remoteCmd(cmd, function(result) {});
+            remoteCmd(cmd, {currTemperature: temperature, isPowerHigh: isPowerHigh}, function(result) {});
         };
 
         this.toggleWindDirection = function () {
             console.log('toggleWindDirection');
         };
 
-        var remoteCmd = function(cmd, callback, fail, done) {
+        var remoteCmd = function(cmd, data, callback, fail, done) {
             $.post(
-                '/test/cmd/' + cmd,
+                '/airController/status/' + cmd,
+                data,
                 function(result) {
                     console.log(result);
                     if (callback) {
@@ -172,10 +177,15 @@
                     });
                 });
                 btnSelectWindPower.on('click', function() {
-                    _AirController.setPowerHigh(!isPowerHigh);
+                    _AirController.setPowerHigh(!isPowerHigh, function(result) {
+                        console.log(result);
+                    });
                 });
                 btnPowerOffSchedule.on('click', function() {
                     powerOffScheduleMode = (++powerOffScheduleMode) % 6;
+                    _AirController.setPowerOffSchedule(powerOffScheduleMode, function(result) {
+                        console.log(result);
+                    });
                 });
             });
         }

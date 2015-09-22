@@ -10,5 +10,5 @@ db.once('open', function() {
     console.log('connection successful...');
 });
 
-var AirController = require('./remoteAirController');
-AirController.initialize();
+//var AirController = require('./remoteAirController');
+//AirController.initialize();
