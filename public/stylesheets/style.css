@@ -10,3 +10,14 @@
 .dropdown-content {
   max-height: 400px;
 }
+
+#powerLed {
+  color: gray;
+  font-size:2em;
+  vertical-align: middle;
+  height: 54px;
+  line-height: 56px;
+}
+#powerLed.powerOn {
+  color: #00E676;
+}

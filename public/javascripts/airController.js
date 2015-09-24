@@ -77,7 +77,7 @@
             remoteCmd(keyMap.powerOffSchedule + mode, {powerOffScheduleMode: mode}, callback, fail, done);
         };
 
-        this.powerOnOff = function () {
+        this.powerOnOff = function (callback) {
             var cmd = '';
             if (isPowerOn) {
                 cmd = keyMap.powerOff;
@@ -91,6 +91,7 @@
                 if (result) {
                     isPowerOn = result.isPowerOn;
                     // 파워온된 모습 보여줘야함;
+                    if (callback) callback();
                 }
             });
         };
@@ -119,8 +120,9 @@
             remoteCmd(cmd, {currTemperature: temperature, isPowerHigh: isPowerHigh}, function(result) {});
         };
 
-        this.toggleWindDirection = function () {
-            console.log('toggleWindDirection');
+        this.toggleWindDirection = function (error, done) {
+            remoteCmd(keyMap.airControll, undefined, function(result) {
+            }, error, done);
         };
 
         var remoteCmd = function(cmd, data, callback, fail, done) {
@@ -136,6 +138,19 @@
             ).fail(fail).done(done);
         }
 
+        var setPowerOn = function(powerOnLed) {
+            if (isPowerOn) {
+                powerOnLed.addClass('powerOn')
+            }
+            else {
+                powerOnLed.removeClass('powerOn');
+            }
+        }
+
+        var isDisable = function (elem) {
+            return $(elem).hasClass('disabled');
+        }
+
         this.bind = function() {
             $(document).ready(function () {
                 var btnPower = $('#btnPower');
@@ -145,10 +160,15 @@
                 var btnPowerOffSchedule = $('#btnPowerOffSchedule');
 
                 btnPower.on('click', function () {
-                    _AirController.powerOnOff();
+                    if (isDisable(this)) return;
+                    _AirController.powerOnOff(function () {
+                        setPowerOn($('#powerLed'));
+                        toggleEnabled(isPowerOn);
+                    });
                 });
 
                 $('.temperature-item').on('click', function () {
+                    if (isDisable(this)) return;
                     var temperature = $(this).attr('data');
                     $('#temperature').text(temperature + '℃');
                     $('#temperatureItems').val(temperature);
@@ -156,6 +176,7 @@
                 });
 
                 btnSelectWorkMode.on('click', function() {
+                    if (isDisable(this)) return;
                     btnClickAction(btnSelectWorkMode, function(done) {
                         _AirController.setWorkSelectMode((selectMode + 1) % 2 + 1,
                             function(result) {
@@ -172,27 +193,61 @@
                     });
                 });
                 btnToggleWindDirection.on('click', function() {
+                    if (isDisable(this)) return;
                     btnClickAction(btnToggleWindDirection, function(done) {
-                        _AirController.toggleWindDirection();
+                        _AirController.toggleWindDirection(function(error) {
+                            console.log(error);
+                        }, done);
                     });
                 });
                 btnSelectWindPower.on('click', function() {
+                    if (isDisable(this)) return;
                     _AirController.setPowerHigh(!isPowerHigh, function(result) {
                         console.log(result);
                     });
                 });
                 btnPowerOffSchedule.on('click', function() {
+                    if (isDisable(this)) return;
                     powerOffScheduleMode = (++powerOffScheduleMode) % 6;
                     _AirController.setPowerOffSchedule(powerOffScheduleMode, function(result) {
                         console.log(result);
                     });
                 });
+
+                initCallback = function (result) {
+                    $('#temperature').text(result.currTemperature + '℃');
+                    $('#temperatureItems').val(result.currTemperature);
+                    setPowerOn($('#powerLed'));
+                    toggleEnabled(result.isPowerOn);
+                }
+
+                var toggleEnabled = function(enabled) {
+                    $(".btnComponent").each(function (i, elem) {
+                        var btn = $(elem);
+                        if (enabled) {
+                            btn.removeClass('disabled');
+                            btn.addClass('waves-effect');
+                            btn.addClass('waves-light');
+                            if (btn[0].id === 'temperature') {
+                                btn.dropdown();
+                            }
+                        }
+                        else {
+                            btn.addClass('disabled');
+                            btn.removeClass('waves-effect');
+                            btn.removeClass('waves-light');
+                            if (btn[0].id === 'temperature') {
+                                $('#temperature').unbind();
+                            }
+                        }
+                    });
+                }
+
             });
         }
 
         var btnClickAction = function(element, func) {
             var done = function() {
-                console.log('done');
                 element.removeAttr('worked');
             };
             var worked = element.attr('worked');
@@ -200,12 +255,8 @@
             element.attr('worked','worked');
             func(done);
         }
+
         this.bind();
-        initCallback = function (result) {
-            console.log('bind temperature: ' + result.currTemperature);
-            $('#temperature').text(result.currTemperature + '℃');
-            $('#temperatureItems').val(result.currTemperature);
-        }
     }
 
     window.AirController = new AirController();

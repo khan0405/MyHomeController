@@ -10,19 +10,25 @@ block content
                 div.col
                     a#btnPower.waves-effect.waves-light.btn-large.red
                         i.fa.fa-power-off
+                div#powerLed.col.right
+                    i.fa.fa-circle
             div.row
                 div.col.s12
-                    a#temperature.dropdown-button.waves-effect.waves-light.btn-large.fillWidth(href='#',data-beloworigin='true',data-activates='temperatureItems')
+                    a#temperature.dropdown-button.waves-effect.waves-light.btn-large.btnComponent.fillWidth(
+                        href='#',data-beloworigin='true',data-activates='temperatureItems'
+                    )
+
                     ul#temperatureItems.dropdown-content
-                        -for(var i = 18; i < 31; i++)
+                        -for(var i = 18; i < 31; i++) {
                             li: a.temperature-item(data='#{i}') #{i}℃
+                        -}
             div.row
                 div.col.s6
-                    a#btnSelectWorkMode.waves-effect.waves-light.btn-large.fillWidth 운전선택
+                    a#btnSelectWorkMode.waves-effect.waves-light.btn-large.btnComponent.fillWidth 운전선택
                 div.col.s6
-                    a#btnToggleWindDirection.waves-effect.waves-light.btn-large.fillWidth 풍향설정
+                    a#btnToggleWindDirection.waves-effect.waves-light.btn-large.btnComponent.fillWidth 풍향설정
             div.row
                 div.col.s6
-                    a#btnSelectWindPower.waves-effect.waves-light.btn-large.fillWidth 풍량선택
+                    a#btnSelectWindPower.waves-effect.waves-light.btn-large.btnComponent.fillWidth 풍량선택
                 div.col.s6
-                    a#btnPowerOffSchedule.waves-effect.waves-light.btn-large.fillWidth 꺼짐예약
+                    a#btnPowerOffSchedule.waves-effect.waves-light.btn-large.btnComponent.fillWidth 꺼짐예약
