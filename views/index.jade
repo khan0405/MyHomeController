@@ -1,6 +1,27 @@
-extends layout
-head
+extends base
 
-block content
-  h1= title
-  p Welcome to #{title}
+block bodyContent
+    nav(role='navigation')
+        div.nav-wrapper.container
+            div.brand-logo.center #{title}
+    div.container.wrapper
+        div.card.waves-effect.fillWidth
+            a(href='#')
+                div.card-content
+                    span.card-title.activator.black-text.text-black  PC Controller
+        div.card.waves-effect.fillWidth
+            a(href='/airConditioner').waves-block
+                div.card-content
+                    span.card-title.activator.black-text.text-black  Air Conditioner
+        div.card.waves-effect.fillWidth
+            a(href='/tv').waves-block
+                div.card-content
+                    span.card-title.activator.black-text.text-black  TV
+        div.card.waves-effect.fillWidth
+            a(href='#').waves-block
+                div.card-content
+                    span.card-title.activator.black-text.text-black  Boiler
+        div.card.waves-effect.fillWidth
+            a(href='#').waves-block
+                div.card-content
+                    span.card-title.activator.black-text.text-black  Lamp

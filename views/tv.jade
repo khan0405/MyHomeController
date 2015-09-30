@@ -1,0 +1,40 @@
+extends layout
+block stylesheets
+    style.
+        .btnNo {
+            font-size: 2em;
+        }
+
+
+block content
+    div.container.wrapper
+        div.row
+            div.col.s4: a.btn.btn-large.waves-effect.waves-light.red.fillWidth.btnNo
+                i.fa.fa-power-off
+        -for (var i = 0; i < 3; i++) {
+            div.row.center-align
+                div.col.s4: a.btn.btn-large.waves-effect.waves-light.fillWidth.btnNo &nbsp;&nbsp;#{i*3+1}&nbsp;&nbsp;
+                div.col.s4: a.btn.btn-large.waves-effect.waves-light.fillWidth.btnNo &nbsp;&nbsp;#{i*3+2}&nbsp;&nbsp;
+                div.col.s4: a.btn.btn-large.waves-effect.waves-light.fillWidth.btnNo &nbsp;&nbsp;#{i*3+3}&nbsp;&nbsp;
+        -}
+        div.row.center-align
+            div.col.s4: a.btn.btn-large.waves-effect.waves-light.fillWidth mute
+            div.col.s4: a.btn.btn-large.waves-effect.waves-light.fillWidth.btnNo &nbsp;&nbsp;0&nbsp;&nbsp;
+            div.col.s4: a.btn.btn-large.waves-effect.waves-light.fillWidth ret
+        div.row.center-align
+            div.col.s4 &nbsp;
+            div.col.s4: a.btn.btn-large.waves-effect.waves-light.fillWidth.btnNo
+                i.fa.fa-chevron-up
+            div.col.s4 &nbsp;
+        div.row.center-align
+            div.col.s4: a.btn.btn-large.waves-effect.waves-light.fillWidth.btnNo
+                i.fa.fa-chevron-left
+            div.col.s4: a.btn.btn-large.waves-effect.waves-light.fillWidth.btnNo
+                i.fa.fa-circle-o
+            div.col.s4: a.btn.btn-large.waves-effect.waves-light.fillWidth.btnNo
+                i.fa.fa-chevron-right
+        div.row.center-align
+            div.col.s4 &nbsp;
+            div.col.s4: a.btn.btn-large.waves-effect.waves-light.fillWidth.btnNo
+                i.fa.i.fa.fa-chevron-down
+            div.col.s4 &nbsp;

@@ -15,7 +15,7 @@
         factory( global );
     }
 }(typeof window !== "undefined" ? window : this, function( window, noGlobal ) {
-    var AirController = function () {
+    var AirConditioner = function () {
 
         var currTemperature = 0;
         var powerOffScheduleMode = 0;
@@ -36,9 +36,9 @@
             high: 'HIGH_'
         };
 
-        var _AirController = this;
+        var _AirConditioner = this;
 
-        $.get('/airController/status', function (result) {
+        $.get('/airConditioner/status', function (result) {
             console.log(result);
             if (result.currTemperature < 18 || result.currTemperature > 30) {
                 currTemperature = 18;
@@ -127,7 +127,7 @@
 
         var remoteCmd = function(cmd, data, callback, fail, done) {
             $.post(
-                '/airController/status/' + cmd,
+                '/airConditioner/status/' + cmd,
                 data,
                 function(result) {
                     console.log(result);
@@ -161,7 +161,7 @@
 
                 btnPower.on('click', function () {
                     if (isDisable(this)) return;
-                    _AirController.powerOnOff(function () {
+                    _AirConditioner.powerOnOff(function () {
                         setPowerOn($('#powerLed'));
                         toggleEnabled(isPowerOn);
                     });
@@ -172,13 +172,13 @@
                     var temperature = $(this).attr('data');
                     $('#temperature').text(temperature + '℃');
                     $('#temperatureItems').val(temperature);
-                    _AirController.setTemperature(temperature);
+                    _AirConditioner.setTemperature(temperature);
                 });
 
                 btnSelectWorkMode.on('click', function() {
                     if (isDisable(this)) return;
                     btnClickAction(btnSelectWorkMode, function(done) {
-                        _AirController.setWorkSelectMode((selectMode + 1) % 2 + 1,
+                        _AirConditioner.setWorkSelectMode((selectMode + 1) % 2 + 1,
                             function(result) {
                                 if (result.code === 200) {
                                     console.log('변경됨');
@@ -195,21 +195,21 @@
                 btnToggleWindDirection.on('click', function() {
                     if (isDisable(this)) return;
                     btnClickAction(btnToggleWindDirection, function(done) {
-                        _AirController.toggleWindDirection(function(error) {
+                        _AirConditioner.toggleWindDirection(function(error) {
                             console.log(error);
                         }, done);
                     });
                 });
                 btnSelectWindPower.on('click', function() {
                     if (isDisable(this)) return;
-                    _AirController.setPowerHigh(!isPowerHigh, function(result) {
+                    _AirConditioner.setPowerHigh(!isPowerHigh, function(result) {
                         console.log(result);
                     });
                 });
                 btnPowerOffSchedule.on('click', function() {
                     if (isDisable(this)) return;
                     powerOffScheduleMode = (++powerOffScheduleMode) % 6;
-                    _AirController.setPowerOffSchedule(powerOffScheduleMode, function(result) {
+                    _AirConditioner.setPowerOffSchedule(powerOffScheduleMode, function(result) {
                         console.log(result);
                     });
                 });
@@ -259,5 +259,5 @@
         this.bind();
     }
 
-    window.AirController = new AirController();
+    window.AirConditioner = new AirConditioner();
 }));

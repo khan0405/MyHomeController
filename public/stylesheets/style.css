@@ -21,3 +21,9 @@
 #powerLed.powerOn {
   color: #00E676;
 }
+
+.btnLabel {
+  height: 54px;
+  line-height: 56px;
+  font-size: 1.5em;
+}

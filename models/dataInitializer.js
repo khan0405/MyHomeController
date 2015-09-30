@@ -9,6 +9,3 @@ db.on('error', console.error.bind(console, 'connection Error:'));
 db.once('open', function() {
     console.log('connection successful...');
 });
-
-//var AirController = require('./remoteAirController');
-//AirController.initialize();

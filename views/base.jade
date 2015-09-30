@@ -1,0 +1,15 @@
+doctype html
+html
+    head
+        meta(name='viewport', content='user-scalable=no,width=device-width,initial-scale=1.0')
+        link(rel='stylesheet', href='/vendors/components-font-awesome/css/font-awesome.min.css')
+        link(rel='stylesheet', href='/vendors/Materialize/dist/css/materialize.css', type='text/css', media='screen,projection')
+        link(rel='stylesheet', href='/stylesheets/style.css')
+        script(src='/vendors/jquery/dist/jquery.min.js')
+        block headContent
+        block stylesheets
+        block headScripts
+    body
+        block bodyContent
+        script(src='/vendors/Materialize/dist/js/materialize.js')
+        block footScripts

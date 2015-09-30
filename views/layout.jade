@@ -1,27 +1,24 @@
-doctype html
-html
-    head
-        meta(name='viewport', content='user-scalable=no,width=device-width,initial-scale=1.0')
-        title= 'KHAN`s Home Controller - ' + title
-        link(rel='stylesheet', href='/vendors/components-font-awesome/css/font-awesome.min.css')
-        link(rel='stylesheet', href='/vendors/Materialize/dist/css/materialize.css', type='text/css', media='screen,projection')
-        link(rel='stylesheet', href='/stylesheets/style.css')
-        script(src='/vendors/jquery/dist/jquery.min.js')
-        block stylesheets
-        block headScripts
-    body
-        nav(role='navigation')
-            div.nav-wrapper.container
-                ul.right.hide-on-med-and-down
-                    li: a(href='#') First link
-                    li: a(href='#') Second link
-                ul#slide-out.side-nav
-                    li: a(href='#') First link
-                    li: a(href='#') Second link
-                a.button-collapse(data-activates='slide-out'): i.mdi-navigation-menu
-                div.brand-logo.center #{title}
-
-        block content
-        script(src='/vendors/Materialize/dist/js/materialize.js')
-        script(src='/javascripts/navigation.js')
-        block footerScripts
+extends base
+block headContent
+    title= 'KHAN`s Home Controller - ' + title
+block bodyContent
+    nav(role='navigation')
+        div.nav-wrapper.container
+            ul.right.hide-on-med-and-down
+                li: a(href='/') Home
+                li: a(href='/airConditioner') Air Conditioner
+                li: a(href='/tv') TV
+                li: a(href='#') Boiler
+                li: a(href='#') Lamp
+            ul#slide-out.side-nav
+                li: a(href='/') Home
+                li: a(href='/airConditioner') Air Conditioner
+                li: a(href='/tv') TV
+                li: a(href='#') Boiler
+                li: a(href='#') Lamp
+            a.button-collapse(data-activates='slide-out'): i.mdi-navigation-menu
+            div.brand-logo.center #{title}
+    block content
+block footScripts
+    script(src='/javascripts/navigation.js')
+    block footerScripts

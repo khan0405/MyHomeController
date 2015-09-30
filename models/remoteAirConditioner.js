@@ -5,7 +5,7 @@ var common = require('./common');
 var mongoose = require('mongoose');
 
 // create scheme
-var AirControllerSchema = new mongoose.Schema({
+var AirConditionerSchema = new mongoose.Schema({
     name: String,
     currTemperature: Number,
     powerOffScheduleMode: Number,
@@ -13,25 +13,25 @@ var AirControllerSchema = new mongoose.Schema({
     isPowerOn: Boolean,
     isPowerHigh: Boolean
 });
-var AirControllerModel = mongoose.model('AirController', AirControllerSchema);
+var AirConditionerModel = mongoose.model('AirConditioner', AirConditionerSchema);
 
-function AirController () {};
-AirController.initialize = AirController.prototype.initialize = function() {
-    console.log('initialize AirController....');
-    AirControllerModel.findOne({name: 'RACstatus'}, function(err, ac) {
+function AirConditioner () {};
+AirConditioner.initialize = AirConditioner.prototype.initialize = function() {
+    console.log('initialize AirConditioner....');
+    AirConditionerModel.findOne({name: 'RACstatus'}, function(err, ac) {
         if (err) {
             console.log(err);
             throw err;
         }
         if (!ac || ac.length === 0) {
-            var airController = new AirControllerModel(defaultStatus);
+            var airConditioner = new AirConditionerModel(defaultStatus);
 
-            airController.save(function (err) {
+            airConditioner.save(function (err) {
                 if (err) {
                     console.log(err);
                     throw err;
                 }
-                console.log('create default airController Settings.: ' + airController);
+                console.log('create default airConditioner Settings.: ' + airConditioner);
             });
         }
         else {
@@ -40,7 +40,7 @@ AirController.initialize = AirController.prototype.initialize = function() {
     });
 };
 
-AirController.initialize();
+AirConditioner.initialize();
 
 var KEY = 'RACstatus';
 var defaultStatus = {
@@ -52,9 +52,9 @@ var defaultStatus = {
     isPowerHigh: true
 }
 
-AirController.RemoteAirController = AirControllerModel;
-AirController.getCurrStatus = function(callback) {
-    this.RemoteAirController.findOne({name: KEY}, function(err, ac) {
+AirConditioner.RemoteAirConditioner = AirConditionerModel;
+AirConditioner.getCurrStatus = function(callback) {
+    this.RemoteAirConditioner.findOne({name: KEY}, function(err, ac) {
         var result;
         if (err) {
             result = common.errorResponse('current status getting error.', err);
@@ -73,8 +73,8 @@ AirController.getCurrStatus = function(callback) {
         }
     });
 }
-AirController.updateStatus = function(rac, callback) {
-    this.RemoteAirController.update({name: KEY}, rac, function(err, numAffected) {
+AirConditioner.updateStatus = function(rac, callback) {
+    this.RemoteAirConditioner.update({name: KEY}, rac, function(err, numAffected) {
         var result;
         if (err) {
             result = common.errorResponse('status update error.', err);
@@ -82,12 +82,13 @@ AirController.updateStatus = function(rac, callback) {
         }
         else {
             if (callback) {
-                AirController.getCurrStatus(callback);
+                AirConditioner.getCurrStatus(callback);
             }
         }
     });
 }
-AirController.resetStatus = function(callback) {
+AirConditioner.resetStatus = function(callback) {
     return this.updateStatus(defaultStatus, callback);
 }
-module.exports = AirController;
+
+module.exports = AirConditioner;
