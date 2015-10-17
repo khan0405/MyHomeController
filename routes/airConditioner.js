@@ -41,28 +41,30 @@ function airConditioner(app, lirc_node) {
         var ac = {};
         var cmd = req.params.cmd;
         var updatable = false;
+        console.log(req.body);
         if (req.body.currTemperature) {
-            ac['currTemperature'] = req.body.currTemperature
+            ac['currTemperature'] = req.body.currTemperature;
             updatable = true;
         }
         if (req.body.powerOffScheduleMode) {
-            ac['powerOffScheduleMode'] = req.body.powerOffScheduleMode
+            ac['powerOffScheduleMode'] = req.body.powerOffScheduleMode;
             updatable = true;
         }
         if (req.body.selectMode) {
-            ac['selectMode'] = req.body.selectMode
+            ac['selectMode'] = req.body.selectMode;
             updatable = true;
         }
         if (req.body.isPowerOn) {
-            ac['isPowerOn'] = req.body.isPowerOn
+            ac['isPowerOn'] = req.body.isPowerOn;
             updatable = true;
         }
         if (req.body.isPowerHigh) {
-            ac['isPowerHigh'] = req.body.isPowerHigh
+            ac['isPowerHigh'] = req.body.isPowerHigh;
             updatable = true;
         }
 
         var responseCallback = function() {
+            console.log(ac);
             if (updatable) {
                 rac.updateStatus(ac, function(result) {
                     res.json(result);

@@ -13,9 +13,6 @@ lirc_node.init();
 
 var app = express();
 
-require('./routes/airConditioner')(app, lirc_node);
-require('./routes/tv')(app, lirc_node);
-
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
@@ -27,6 +24,10 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+
+require('./routes/airConditioner')(app, lirc_node);
+require('./routes/tv')(app, lirc_node);
+require('./routes/PcController')(app);
 
 /* GET home page. */
 app.get('/', function(req, res, next) {

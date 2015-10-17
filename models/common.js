@@ -3,7 +3,10 @@
  */
 function Common() {};
 Common.errorResponse = function(msg, err) {
-    return {code:500, message: msg, error:err};
+    return Common.errorResponseWithCode(500, msg, err);
+};
+Common.errorResponseWithCode = function(code, msg, err) {
+    return {code:code, message: msg, error:err};
 };
 Common.successResponse = function(data, msg) {
     if (!msg) {
