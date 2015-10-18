@@ -11,7 +11,7 @@ function airConditioner(app, lirc_node) {
 
     /* GET home page. */
     router.get('/', function(req, res, next) {
-        res.render('airConditioner', {title: 'Air Conditioner'});
+        common.render(req, res, 'airConditioner', {title: 'Air Conditioner'});
     });
 
     var timerknock;

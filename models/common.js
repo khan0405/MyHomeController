@@ -14,4 +14,8 @@ Common.successResponse = function(data, msg) {
     }
     return {code: 200, data: data, message: msg};
 };
+Common.render = function(req, res, url, opt) {
+    opt.currUrl = req.originalUrl;
+    res.render(url, opt);
+}
 module.exports = Common;

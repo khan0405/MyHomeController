@@ -9,11 +9,22 @@ var PcController = function (app) {
 
     /* GET home page. */
     router.get('/', function(req, res, next) {
-        res.render('pcController', {title: 'My PC Controller'});
+        pcInfo.getPcInfoList(function(err, result) {
+            common.render(req, res, 'PcController', {
+                title: 'My PC Controller',
+                pcList: result
+            });
+        });
     });
 
     router.get('/list', function(req, res, next) {
-       pcInfo.getPcInfoList(function(result) {
+       pcInfo.getPcInfoList(function(err, result) {
+           if (err) {
+               result = common.errorResponse('getting pc info list error', err);
+           }
+           else {
+               result = common.successResponse(result);
+           }
            res.json(result);
        });
     });
@@ -30,18 +41,40 @@ var PcController = function (app) {
 
     });
 
+    router.post('/update', function(req, res, next) {
+        var data = req.body;
+        if (!data) {
+            res.json(common.errorResponse('require pc info data', ''));
+            return;
+        }
+        pcInfo.updatePcInfo(data, function(result) {
+            res.json(result);
+        });
+    });
+
+    router.post('/remove', function(req, res, next) {
+        var data = req.body;
+        if (!data) {
+            res.json(common.errorResponse('require pc info data', ''));
+            return;
+        }
+        pcInfo.removePcInfo(data, function(result) {
+            res.json(result);
+        });
+    });
+
     router.post('/powerOn', function(req, res, next) {
         var data = req.body;
-        if (!data || data.macAddr) {
+        if (!data || !data.macAddr) {
             res.json(common.errorResponse('require pc info data'));
             return;
         }
         wol.wake(data.macAddr, function (err) {
             if (err) {
-                res.json(common.errorResponseWithCode(500, 'On error occured power on....', err));
+                res.json(common.errorResponseWithCode(500, 'PC를 켜는 데 실패했습니다.', err));
                 return;
             }
-            res.json(common.successResponse(null));
+            res.json(common.successResponse(undefined, 'PC 켜기 신호를 보냈습니다.'));
         });
 
     });

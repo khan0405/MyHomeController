@@ -26,7 +26,7 @@ PcInfo.getPcInfoList = function(callback) {
     this.pcInfo.find({}, function(err, pcInfos) {
         var result;
         if (err) {
-            result = common.errorResponse('PC Info getting error.', err);
+            result = 'PC Info getting error.';
         }
         else {
             result = [];
@@ -39,19 +39,18 @@ PcInfo.getPcInfoList = function(callback) {
             });
         }
         if (callback) {
-            callback(result);
+            callback(err, result);
         }
     });
 }
 PcInfo.getPcInfo = function (pcInfo, callback) {
     if (!pcInfo) {
         if (callback) {
-            callback({});
+            callback(common.successResponse({}));
         }
         return;
     }
     var findParam = {};
-    console.log(JSON.stringify(pcInfo));
     if (pcInfo.id) {
         findParam['_id'] = pcInfo.id;
     }
@@ -61,11 +60,9 @@ PcInfo.getPcInfo = function (pcInfo, callback) {
     if (pcInfo.macAddr) {
         findParam['macAddr'] = pcInfo.macAddr;
     }
-    console.log("findParam: ");
-    console.log(findParam);
     if (Object.keys(findParam).length == 0) {
         if (callback) {
-            callback({});
+            callback(common.successResponse({}));
         }
         return;
     }
@@ -84,7 +81,7 @@ PcInfo.getPcInfo = function (pcInfo, callback) {
         }
 
         if (callback) {
-            callback(result);
+            callback(common.successResponse(result));
         }
     });
 }
@@ -96,8 +93,6 @@ PcInfo.insertPcInfo = function (pcInfo, callback) {
         return;
     }
     PcInfo.getPcInfo({name: pcInfo.name}, function(result) {
-        console.log("result : ")
-        console.log(result);
         if (result && result.name && result.name === pcInfo.name) {
             if (callback) {
                 callback(common.errorResponseWithCode(400, 'duplicate pc name'));
@@ -111,7 +106,7 @@ PcInfo.insertPcInfo = function (pcInfo, callback) {
                     result = common.errorResponse('pc info saving error...');
                 }
                 else {
-                    result = pcInfo;
+                    result = common.successResponse(pcInfo);
                 }
                 console.log('create Pc Info: ' + pcInfo);
             });
@@ -123,7 +118,7 @@ PcInfo.insertPcInfo = function (pcInfo, callback) {
 
 }
 PcInfo.updatePcInfo = function (pcInfo, callback) {
-    this.RemoteAirConditioner.update({_id: pcInfo.id}, pcInfo, function(err, numAffected) {
+    PcInfo.update({_id: pcInfo.id}, pcInfo, function(err, numAffected) {
         var result;
         if (err) {
             result = common.errorResponse('PC Info update error.', err);
@@ -133,6 +128,21 @@ PcInfo.updatePcInfo = function (pcInfo, callback) {
             if (callback) {
                 PcInfo.getPcInfo({id: pcInfo.id}, callback);
             }
+        }
+    });
+}
+
+PcInfo.removePcInfo = function(pcInfo, callback) {
+    PcInfo.find({_id: pcInfo.id}).remove(function(err, info) {
+        var result;
+        if (err) {
+            result = common.errorResponse('PC Info update error.', err);
+        }
+        else {
+            result = common.successResponse({id: info._id});
+        }
+        if (callback) {
+            callback(result);
         }
     });
 }
