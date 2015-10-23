@@ -1,7 +1,9 @@
 /**
+ * API Common Module.
  * Created by KHAN on 2015-09-22.
  */
-function Common() {};
+function Common() {}
+
 Common.errorResponse = function(msg, err) {
     return Common.errorResponseWithCode(500, msg, err);
 };
@@ -17,5 +19,10 @@ Common.successResponse = function(data, msg) {
 Common.render = function(req, res, url, opt) {
     opt.currUrl = req.originalUrl;
     res.render(url, opt);
-}
-module.exports = Common;
+};
+Common.sendErrorJson = function(res, result) {
+    res.status(result.code || 500);
+    res.json(result);
+};
+
+exports = module.exports = Common;

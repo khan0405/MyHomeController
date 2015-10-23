@@ -56,16 +56,23 @@ var PcController = (function() {
         }
     });
     return {
-        getPcList: function () {
+        getPcList: function (isRefresh) {
             $ajax({
                 url: 'list',
                 method: 'GET',
                 success: function(result) {
                     if (result.data) {
                         var pcListField = $('#pcList');
+                        if (isRefresh) {
+                            pcListField.children().remove();
+                        }
+                        if (result.data.length == 0) {
+                            pcListField.append($('<a class="collection-item">데이터가 없습니다.</a>'));
+                            return;
+                        }
                         $.each(result.data, function(i, pcInfo) {
                             var field = $("<a></a>");
-                            field.addClass('btnPowerOn');
+                            field.addClass('btnPowerOn collection-item waves-effect waves-light');
                             field.attr('data-id', pcInfo.id);
                             field.attr('data-name', pcInfo.name);
                             field.attr('data-mac', pcInfo.macAddr);
@@ -79,8 +86,16 @@ var PcController = (function() {
                 }
             });
         },
-        createPcInfo: function () {
-
+        createPcInfo: function(pcInfo) {
+            $ajax({
+                url: 'create',
+                method: 'POST',
+                data: pcInfo,
+                success: function(result) {
+                    alert('저장되었습니다.');
+                    self.getPcList(true);
+                }
+            });
         },
         updatePcInfo: function() {
 
