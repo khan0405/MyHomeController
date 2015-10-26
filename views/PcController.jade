@@ -11,90 +11,59 @@ block stylesheets
             text-align: center;
             ime-mode: disabled;
         }
+
+        .collection li.collection-item {
+            padding: 0;
+            width: 100%;
+            color: #29b6f6;
+        }
+
+        .collection li.collection-item:not(.active):hover {
+            padding: 0;
+            width: 100%;
+            background-color: #ddd;
+        }
+
+        li.collection-item div {
+            padding: 10px 20px;
+            float: left;
+        }
+
+        li.collection-item a.secondary-content {
+            padding: 10px 20px;
+        }
+        .modal.bottom-sheet, .modal .modal-content, .modal-menu {
+            padding: 0;
+            margin: 0;
+        }
+        #PcMenu a.collection-item {
+            font-size: 1.5em;
+            padding: 15px;
+            height: auto;
+        }
+        #btnNewPcInfo {
+            font-size: 15px;
+        }
+
 block headScripts
     script(src='/javascripts/PcController.js')
     script.
-        $(document).ready(function() {
-            var inputMac = $('input.macAddr');
-            inputMac.blur(function(e) {
-                var $this = $(this);
-                if (!this.value) {
-                    $this.removeClass('invalid');
-                    $this.removeClass('valid');
-                    return;
-                }
-                if (/[0-9A-Fa-f]{2}$/g.test(this.value)) {
-                    $this.removeClass('invalid');
-                    $this.addClass('valid');
-                }
-                else {
-                    $this.addClass('invalid');
-                    $this.removeClass('valid');
-                }
-            });
-            inputMac.keyup(function(e) {
-                if (this.value.length == 0 && e.keyCode == 8) {
-                    var prev = parseInt(this.id.substr(this.id.length-1)) - 1
-                    if (prev > 0) {
-                        $('#macAddr' + prev).focus();
-                    }
-                    return;
-                }
-                if (!/[0-9A-Fa-f]$/g.test(String.fromCharCode(e.keyCode))) return;
-                var $this = $(this);
-                if (/[0-9A-Fa-f]{2}$/g.test(this.value)) {
-                    $this.removeClass('invalid');
-                    $this.addClass('valid');
-                    var next = parseInt(this.id.substr(this.id.length-1)) + 1
-                    console.log(next);
-                    if (next > 6) {
-                        return;
-                    }
-                    $('#macAddr' + next).focus();
-                }
-                else {
-                    $this.addClass('invalid');
-                    $this.removeClass('valid');
-                }
-            });
-
-            $('#btnSave').click(function() {
-                var macAddr = '';
-                for (var i = 1; i < 7; i++) {
-                    macAddr += '-' + document.getElementById('macAddr'+i).value
-                }
-                macAddr = macAddr.replace('-', '');
-                var pcInfo = {
-                    name: document.getElementById('name').value,
-                    macAddr: macAddr
-                };
-                validatePcInfo(pcInfo) && PcController.createPcInfo();
-            });
-        });
-        var validatePcInfo = function (pcInfo) {
-            if (!pcInfo.name) {
-                alert('PC 이름을 입력하세요.');
-                document.getElementById('name').focus();
-                return false;
-            }
-
-            var macAddr = pcInfo.macAddr.replace(/-/gi,'');
-            if (!/[0-9A-Fa-f]{12}$/g.test(macAddr)) {
-                alert('MAC Address를 확인하세요.');
-                document.getElementById('macAddr').focus();
-                return false;
-            }
-
-            return true;
-        }
+        PcController.bind(document);
 block content
     div.container
         h5.header 켜실 PC를 선택하세요.
-        div#pcList.collection
+        ul#pcList.collection
             each pcInfo in pcList
-                a.btnPowerOn.collection-item.waves-effect.waves-light(data-id="#{pcInfo.id}", data-name="#{pcInfo.name}", data-mac="#{pcInfo.macAddr}").
-                    #{pcInfo.name} #{pcInfo.macAddr}
+                li.collection-item.waves-effect.waves-light.btnPowerOn(
+                    data-id="#{pcInfo.id}", data-name="#{pcInfo.name}", data-mac="#{pcInfo.macAddr}"
+                )
+                    div #{pcInfo.name} [#{pcInfo.macAddr}]
+                    a.secondary-content.modal-trigger(href="#PcMenu", data-target='PcMenu')
+                        i.fa.fa-angle-right
+        br
         h5.header PC 정보 입력
+            a#btnNewPcInfo.btn.right(style='display:inline-block') 새 PC 정보 입력
+        input#id(type='hidden')
         div.row
             div.input-field.col.s12
                 input#name.validate(type='text')
@@ -107,3 +76,9 @@ block content
             -}
         div.col.right
             a#btnSave.btn.btn-large.waves-effect.waves-light 저장
+
+        div#PcMenu.modal.bottom-sheet
+            div.modal-content
+                ul.collection.modal-menu
+                    a#btnUpdate.btn.collection-item.waves-effect.waves-light 수정
+                    a#btnRemove.btn.collection-item.waves-effect.waves-light 삭제

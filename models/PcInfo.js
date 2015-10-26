@@ -73,11 +73,11 @@ PcInfo.getPcInfo = function (pcInfo, callback) {
             result = {};
         }
         else {
-            result = {
+            result = pcInfo ? {
                 id: pcInfo._id,
                 name: pcInfo.name,
                 macAddr: pcInfo.macAddr
-            };
+            } : {};
         }
 
         if (callback) {
@@ -118,7 +118,10 @@ PcInfo.insertPcInfo = function (pcInfo, callback) {
 
 }
 PcInfo.updatePcInfo = function (pcInfo, callback) {
-    PcInfo.update({_id: pcInfo.id}, pcInfo, function(err, numAffected) {
+    console.log(pcInfo);
+    console.log(this.pcInfo.update);
+    console.log(PcInfo.update);
+    this.pcInfo.update({_id: pcInfo.id}, pcInfo, function(err, numAffected) {
         var result;
         if (err) {
             result = common.errorResponse('PC Info update error.', err);
@@ -133,10 +136,10 @@ PcInfo.updatePcInfo = function (pcInfo, callback) {
 }
 
 PcInfo.removePcInfo = function(pcInfo, callback) {
-    PcInfo.find({_id: pcInfo.id}).remove(function(err, info) {
+    this.pcInfo.find({_id: pcInfo.id}).remove(function(err, info) {
         var result;
         if (err) {
-            result = common.errorResponse('PC Info update error.', err);
+            result = common.errorResponse('PC Info remove error.', err);
         }
         else {
             result = common.successResponse({id: info._id});
