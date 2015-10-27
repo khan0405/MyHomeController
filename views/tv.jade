@@ -1,6 +1,7 @@
 extends layout
 block stylesheets
     style.
+        
         .btnNo {
             font-size: 2em;
         }
@@ -24,36 +25,53 @@ block stylesheets
             width: 100%;
             display: list-item;
         }
-        span.middle {
+
+        div.middle, span.middle {
             padding: 0px;
-            display: table-cell;
+            display: table;
             vertical-align: middle;
-            width: 100px;
+            width: 100%;
             line-height: normal;
         }
-
+        div.row.noBottomMargin {
+            margin-bottom: 0px;
+        }
+        #btnSelectTvCable i.right {
+            font-size: 1rem;
+            position: absolute;
+            top: 0;
+            right: 10px;
+        }
+        .inline-center {
+            display: inline-flex;
+            text-align: center;
+        }
+block headScripts
+    script(src='/javascripts/tv.js')
 block content
     div.container.wrapper
         div.row
-            div.col.s4: a#btnPower.btn-large.waves-effect.waves-light.red.fillWidth.btnNo
-                i.fa.fa-power-off
+            div.col.s4
+                a#btnPower.btn-large.waves-effect.waves-light.red.fillWidth.btnNo.btn(data-button='powerOn')
+                    i.fa.fa-power-off
             div.col.s4 &nbsp;
-            div.col.s4: a#btnInput.btn-large.waves-effect.waves-light.fillWidth 외부입력
-        div.row.center-align
+            div.col.s4: a#btnInput.btn-large.waves-effect.waves-light.fillWidth.btn 외부입력
+        div.row.center-align.noBottomMargin
             div.col.s9
                 -for (var i = 0; i < 3; i++) {
                     div.row.center-align
                         -for (var j = 1; j < 4; j++) {
                             -var index = i*3+j;
-                            div.col.s4: a.btn-large.waves-effect.waves-light.fillWidth.btnNo(id='btn'+(index)) #{index}
+                            div.col.s4: a.btn-large.waves-effect.waves-light.fillWidth.btnNo.btn(id='btn'+index).
+                                #{index}
                         -}
                 -}
                 div.row.center-align
-                    div.col.s4: a#btnMute.btn-large.waves-effect.waves-light.fillWidth.
+                    div.col.s4: a#btnMute.btn-large.waves-effect.waves-light.fillWidth.btn.
                         mute
-                    div.col.s4: a#btn0.btn-large.waves-effect.waves-light.fillWidth.btnNo.
+                    div.col.s4: a#btn0.btn-large.waves-effect.waves-light.fillWidth.btnNo.btn.
                         0
-                    div.col.s4: a#btnRet.btn-large.waves-effect.waves-light.fillWidth.
+                    div.col.s4: a#btnRet.btn-large.waves-effect.waves-light.fillWidth.btn.
                         ret
             div.col.s3
                 div.row.rs2.btn-large.waves-effect.waves-light.fillWidth
@@ -62,35 +80,42 @@ block content
                     div.s12
                         div.row
                             div.col.s12
-                                a#btnSoundUp.btn-flat.btnNo +
+                                a#btnSoundUp.btn-flat.btnNo.btn +
                         div.row
                             div.col.s12
-                                a#btnSoundDown.btn-flat.btnNo -
+                                a#btnSoundDown.btn-flat.btnNo.btn -
                 div.row.rs2.btn-large.waves-effect.waves-light.fillWidth
                     div.caption
                         span.middle 채널
                     div.s12
                         div.row
                             div.col.s12
-                                a#btnChannelUp.btn-flat.btnNo +
+                                a#btnChannelUp.btn-flat.btnNo.btn +
                         div.row
                             div.col.s12
-                                a#btnChannerDown.btn-flat.btnNo -
+                                a#btnChannerDown.btn-flat.btnNo.btn -
 
         div.row.center-align
             div.col.s4 &nbsp;
-            div.col.s4: a#btnUp.btn-large.waves-effect.waves-light.fillWidth.btnNo
+            div.col.s4: a#btnUp.btn-large.waves-effect.waves-light.fillWidth.btnNo.btn
                 i.fa.fa-chevron-up
-            div.col.s4 &nbsp;
+            div.col.s4
+                a#btnSelectTvCable.btn-large.waves-effect.waves-light.teal.fillWidth.dropdown-button(data-activates="selectTvCable", data-select="1")
+                    div.inline-center TV
+                    i.fa.fa-chevron-down.right
         div.row.center-align
-            div.col.s4: a#btnLeft.btn-large.waves-effect.waves-light.fillWidth.btnNo
+            div.col.s4: a#btnLeft.btn-large.waves-effect.waves-light.fillWidth.btnNo.btn
                 i.fa.fa-chevron-left
-            div.col.s4: a#btnOk.btn-large.waves-effect.waves-light.fillWidth.btnNo
+            div.col.s4: a#btnOk.btn-large.waves-effect.waves-light.fillWidth.btnNo.btn
                 i.fa.fa-circle-o
-            div.col.s4: a#btnRight.btn-large.waves-effect.waves-light.fillWidth.btnNo
+            div.col.s4: a#btnRight.btn-large.waves-effect.waves-light.fillWidth.btnNo.btn
                 i.fa.fa-chevron-right
         div.row.center-align
             div.col.s4 &nbsp;
-            div.col.s4: a#btnDown.btn-large.waves-effect.waves-light.fillWidth.btnNo
+            div.col.s4: a#btnDown.btn-large.waves-effect.waves-light.fillWidth.btnNo.btn
                 i.fa.i.fa.fa-chevron-down
             div.col.s4 &nbsp;
+
+        ul#selectTvCable.dropdown-content
+            li: a.btnModeSelect.center-align.waves-effect.waves-light(href="#!", data-select="1") TV
+            li: a.btnModeSelect.center-align.waves-effect.waves-light(href="#!", data-select="2") 케이블
