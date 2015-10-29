@@ -2,7 +2,7 @@
  * Created by KHAN on 2015-10-18.
  */
 
-var PcController = (function($) {
+var PcController = (function($, doc) {
     var $ajax = function(opt) {
         $.ajax({
             url: '/pcController/' + opt.url,
@@ -84,7 +84,7 @@ var PcController = (function($) {
         });
     };
 
-    var bindDocument = function(doc) {
+    (function(doc) {
         var $doc = $(doc);
         $doc.ready(function() {
             var inputMac = $('input.macAddr');
@@ -192,7 +192,7 @@ var PcController = (function($) {
             $menu.attr('data-name', pcInfo.name);
             $menu.attr('data-mac', pcInfo.macAddr);
         });
-    };
+    })(doc);
 
     return {
         getPcList: function (isRefresh) {
