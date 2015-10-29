@@ -2,7 +2,7 @@
  * Created by KHAN on 2015-10-18.
  */
 
-var PcController = (function() {
+var PcController = (function($) {
     var $ajax = function(opt) {
         $.ajax({
             url: '/pcController/' + opt.url,
@@ -273,10 +273,6 @@ var PcController = (function() {
                     alert('삭제가 실패했습니다.');
                 }
             });
-        },
-
-        bind: function(doc) {
-            bindDocument(doc);
         }
     }
-})();
+})(jQuery, document);

@@ -1,4 +1,5 @@
 /**
+ *
  * Created by KHAN on 2015-09-15.
  */
 var common = require('./common');
@@ -12,11 +13,12 @@ var PcInfoSchema = new mongoose.Schema({
 
 var PcInfoModel = mongoose.model('PcInfo', PcInfoSchema);
 
-function PcInfo () {
+var PcInfo = function () {
     if (!(this instanceof PcInfo)) {
         PcInfo.initialize();
     }
 };
+
 PcInfo.initialize = PcInfo.prototype.initialize = function() {
     console.log('initialize PcInfo....');
 };
@@ -42,7 +44,8 @@ PcInfo.getPcInfoList = function(callback) {
             callback(err, result);
         }
     });
-}
+};
+
 PcInfo.getPcInfo = function (pcInfo, callback) {
     if (!pcInfo) {
         if (callback) {
@@ -84,7 +87,7 @@ PcInfo.getPcInfo = function (pcInfo, callback) {
             callback(common.successResponse(result));
         }
     });
-}
+};
 PcInfo.insertPcInfo = function (pcInfo, callback) {
     if (!pcInfo) {
         if (callback) {
@@ -116,7 +119,8 @@ PcInfo.insertPcInfo = function (pcInfo, callback) {
         }
     });
 
-}
+};
+
 PcInfo.updatePcInfo = function (pcInfo, callback) {
     console.log(pcInfo);
     console.log(this.pcInfo.update);
@@ -133,7 +137,7 @@ PcInfo.updatePcInfo = function (pcInfo, callback) {
             }
         }
     });
-}
+};
 
 PcInfo.removePcInfo = function(pcInfo, callback) {
     this.pcInfo.find({_id: pcInfo.id}).remove(function(err, info) {
@@ -148,5 +152,6 @@ PcInfo.removePcInfo = function(pcInfo, callback) {
             callback(result);
         }
     });
-}
-module.exports = PcInfo;
+};
+
+exports = module.exports = PcInfo;
