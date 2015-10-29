@@ -16,6 +16,6 @@
     "serve-favicon": "~2.3.0",
     "wake_on_lan": "0.0.3",
     "lirc_node": "0.0.2",
-    "forever_monitor": "1.7.0"
+    "forever-monitor": "1.7.0"
   }
 }
