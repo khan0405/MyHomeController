@@ -20,6 +20,9 @@ Common.render = function(req, res, url, opt) {
     opt.currUrl = req.originalUrl;
     res.render(url, opt);
 };
+Common.sendJson = function(res, result) {
+    res.json(result);
+};
 Common.sendErrorJson = function(res, result) {
     res.status(result.code || 500);
     res.json(result);
