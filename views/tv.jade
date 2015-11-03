@@ -19,11 +19,18 @@ block stylesheets
             line-height: 56px;
             color: #ffffff;
         }
+        div.btnLong {
+            text-align: center;
+            position: absolute;
+            width: 100%;
+            z-index: 999;
+        }
         div.caption {
             text-align: center;
             position: absolute;
             width: 100%;
             display: list-item;
+            z-index: 998;
         }
 
         div.middle, span.middle {
@@ -75,25 +82,25 @@ block content
                         ret
             div.col.s3
                 div.row.rs2.btn-large.waves-effect.waves-light.fillWidth
+                    div.s12.btnLong
+                        div.row
+                            div.col.s12
+                                a#btnSoundUp.btnNo +
+                        div.row
+                            div.col.s12
+                                a#btnSoundDown.btnNo -
                     div.caption
                         span.middle 음량
-                    div.s12
-                        div.row
-                            div.col.s12
-                                a#btnSoundUp.btn-flat.btnNo.btn +
-                        div.row
-                            div.col.s12
-                                a#btnSoundDown.btn-flat.btnNo.btn -
                 div.row.rs2.btn-large.waves-effect.waves-light.fillWidth
+                    div.s12.btnLong
+                        div.row
+                            div.col.s12
+                                a#btnChannelUp.btnNo +
+                        div.row
+                            div.col.s12
+                                a#btnChannerDown.btnNo -
                     div.caption
                         span.middle 채널
-                    div.s12
-                        div.row
-                            div.col.s12
-                                a#btnChannelUp.btn-flat.btnNo.btn +
-                        div.row
-                            div.col.s12
-                                a#btnChannerDown.btn-flat.btnNo.btn -
 
         div.row.center-align
             div.col.s4 &nbsp;
