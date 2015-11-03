@@ -1,36 +1,33 @@
-
-exports = module.exports = airConditioner;
-
 var express = require('express');
 var router = express.Router();
 var common = require('../models/common');
-var rac = require('../models/remoteAirConditioner');
+var rac = require('../models/AirConditioner');
 
-function airConditioner(app, lirc_node) {
+var AirConditioner = function (app, lirc) {
+
     app.use('/airConditioner', router);
 
     /* GET home page. */
     router.get('/', function(req, res, next) {
         common.render(req, res, 'airConditioner', {title: 'Air Conditioner'});
     });
-
-    var timerknock;
-
-    router.get('/tout', function(req, res, next) {
-        timerknock = setTimeout(function() {
-            console.log('timeout!!!');
-            timerknock = undefined;
-        }, 5000);
-        res.json(common.successResponse());
-    });
-    router.get('/tcancel', function(req, res, next) {
-        if (timerknock) {
-            console.log('cancel timerknock');
-            clearTimeout(timerknock);
-            timerknock = undefined;
-        }
-        res.json(common.successResponse());
-    });
+    //var timerknock;
+    //
+    //router.get('/tout', function(req, res, next) {
+    //    timerknock = setTimeout(function() {
+    //        console.log('timeout!!!');
+    //        timerknock = undefined;
+    //    }, 5000);
+    //    res.json(common.successResponse());
+    //});
+    //router.get('/tcancel', function(req, res, next) {
+    //    if (timerknock) {
+    //        console.log('cancel timerknock');
+    //        clearTimeout(timerknock);
+    //        timerknock = undefined;
+    //    }
+    //    res.json(common.successResponse());
+    //});
     router.get('/status', function (req, res, next) {
         rac.getCurrStatus(function(result) {
             res.json(result);
@@ -73,10 +70,11 @@ function airConditioner(app, lirc_node) {
             else {
                 res.json(common.successResponse());
             }
-        }
+        };
         console.log('cmd : ' + cmd);
-
-        //lirc_node.irsend.send_once('lgac', cmd, responseCallback);
+        //lirc.irsend.send_once('lgac', cmd, responseCallback);
         responseCallback();
     });
-}
+};
+
+exports = module.exports = AirConditioner;

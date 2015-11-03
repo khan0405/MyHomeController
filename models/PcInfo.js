@@ -26,12 +26,8 @@ PcInfo.initialize = PcInfo.prototype.initialize = function() {
 PcInfo.pcInfo = PcInfoModel;
 PcInfo.getPcInfoList = function(callback) {
     this.pcInfo.find({}, function(err, pcInfos) {
-        var result;
-        if (err) {
-            result = 'PC Info getting error.';
-        }
-        else {
-            result = [];
+        var result = [];
+        if (pcInfos && pcInfos.length > 0) {
             pcInfos.forEach(function (pcInfo) {
                 result.push({
                     id: pcInfo._id,

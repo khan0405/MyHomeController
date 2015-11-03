@@ -1,7 +1,7 @@
 //Created by KHAN on 2015-09-04.
 extends layout
 block headScripts
-    script(src='/javascripts/airConditioner.js')
+    script(src='/javascripts/AirConditioner.js')
 
 block content
     div.container
@@ -17,7 +17,6 @@ block content
                     a#temperature.dropdown-button.waves-effect.waves-light.btn-large.btnComponent.fillWidth(
                         href='#',data-beloworigin='true',data-activates='temperatureItems'
                     )
-
                     ul#temperatureItems.dropdown-content
                         -for(var i = 18; i < 31; i++) {
                             li: a.temperature-item(data='#{i}') #{i}℃

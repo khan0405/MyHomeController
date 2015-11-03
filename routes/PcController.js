@@ -80,6 +80,6 @@ var PcController = function (app) {
         });
 
     });
-}
+};
 
 exports = module.exports = PcController;

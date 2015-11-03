@@ -1,22 +1,8 @@
 /**
  * Created by KHAN on 2015-09-04.
  */
-(function(global, factory){
-    if ( typeof module === "object" && typeof module.exports === "object" ) {
-        module.exports = global.document ?
-            factory( global, true ) :
-            function( w ) {
-                if ( !w.document ) {
-                    throw new Error( "AirController requires a window with a document" );
-                }
-                return factory( w );
-            };
-    } else {
-        factory( global );
-    }
-}(typeof window !== "undefined" ? window : this, function( window, noGlobal ) {
-    var AirConditioner = function () {
-
+(function ($, window) {
+    var AirConditioner = (function () {
         var currTemperature = 0;
         var powerOffScheduleMode = 0;
         var selectMode = 0;
@@ -136,7 +122,7 @@
                     }
                 }
             ).fail(fail).done(done);
-        }
+        };
 
         var setPowerOn = function(powerOnLed) {
             if (isPowerOn) {
@@ -145,11 +131,11 @@
             else {
                 powerOnLed.removeClass('powerOn');
             }
-        }
+        };
 
         var isDisable = function (elem) {
             return $(elem).hasClass('disabled');
-        }
+        };
 
         this.bind = function() {
             $(document).ready(function () {
@@ -219,7 +205,7 @@
                     $('#temperatureItems').val(result.currTemperature);
                     setPowerOn($('#powerLed'));
                     toggleEnabled(result.isPowerOn);
-                }
+                };
 
                 var toggleEnabled = function(enabled) {
                     $(".btnComponent").each(function (i, elem) {
@@ -244,7 +230,7 @@
                 }
 
             });
-        }
+        };
 
         var btnClickAction = function(element, func) {
             var done = function() {
@@ -254,10 +240,10 @@
             if (worked === 'worked') return;
             element.attr('worked','worked');
             func(done);
-        }
+        };
 
         this.bind();
-    }
+    })();
 
-    window.AirConditioner = new AirConditioner();
-}));
+    window.AirConditioner = AirConditioner;
+})(jQuery, window);
