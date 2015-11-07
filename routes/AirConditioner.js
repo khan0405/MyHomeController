@@ -36,7 +36,7 @@ var AirConditioner = function (app, lirc) {
 
     router.post('/status/:cmd', function (req, res, next) {
         var ac = {};
-        var cmd = req.params.cmd;
+        var cmd = decodeURIComponent(req.params.cmd ? req.params.cmd : '');
         var updatable = false;
         console.log(req.body);
         if (req.body.currTemperature) {

@@ -16,8 +16,8 @@
             powerOffSchedule: 'GEO-JIM-YE-YAK_',
             powerCold: 'PA-WEO-NAENG-BANG',
             airControll: 'PUNG-HYANG-SANG-HA',
-            powerOn: 'UN-JEON/JEONG-JI_',
-            powerOff: 'UN-JEON/JEONG-JI_OFF',
+            powerOn: 'UN-JEON%2FJEONG-JI_',
+            powerOff: 'UN-JEON%2FJEONG-JI_OFF',
             low: 'LOW_',
             high: 'HIGH_'
         };
