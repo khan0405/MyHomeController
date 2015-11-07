@@ -12,23 +12,7 @@ var AirConditioner = function (app, lirc) {
     router.get('/', function(req, res, next) {
         common.render(req, res, 'airConditioner', {title: 'Air Conditioner'});
     });
-    //var timerknock;
-    //
-    //router.get('/tout', function(req, res, next) {
-    //    timerknock = setTimeout(function() {
-    //        console.log('timeout!!!');
-    //        timerknock = undefined;
-    //    }, 5000);
-    //    res.json(common.successResponse());
-    //});
-    //router.get('/tcancel', function(req, res, next) {
-    //    if (timerknock) {
-    //        console.log('cancel timerknock');
-    //        clearTimeout(timerknock);
-    //        timerknock = undefined;
-    //    }
-    //    res.json(common.successResponse());
-    //});
+
     router.get('/status', function (req, res, next) {
         rac.getCurrStatus(function(result) {
             res.json(result);
@@ -62,7 +46,6 @@ var AirConditioner = function (app, lirc) {
         }
 
         var responseCallback = function() {
-            console.log(ac);
             if (updatable) {
                 rac.updateStatus(ac, function(result) {
                     res.json(result);
