@@ -72,7 +72,7 @@ var AirConditioner = function (app, lirc) {
             }
         };
         console.log('cmd : ' + cmd);
-        //lirc.irsend.send_once('lgac', cmd, responseCallback);
+        lirc.irsend.send_once('lgac', cmd, responseCallback);
         responseCallback();
     });
 };
