@@ -2,6 +2,7 @@ var express = require('express');
 var router = express.Router();
 var common = require('../models/common');
 var rac = require('../models/AirConditioner');
+var options = global.options;
 
 var AirConditioner = function (app, lirc) {
 
@@ -72,9 +73,18 @@ var AirConditioner = function (app, lirc) {
             }
         };
         console.log('cmd : ' + cmd);
-        lirc.irsend.send_once('lgac', cmd, responseCallback);
-        responseCallback();
+        irSend(cmd, responseCallback);
     });
+
+    var irSend = function(cmd, callback) {
+        if (options && options.lircEnabled) {
+            lirc.irsend.send_once('lgac', cmd, callback);
+        }
+        else {
+            console.log('lirc not enabled.... cmd : ' + cmd);
+            callback();
+        }
+    }
 };
 
 exports = module.exports = AirConditioner;
